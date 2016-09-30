@@ -1,0 +1,19 @@
+language: generic
+
+matrix:
+  include:
+    - os: linux
+      sudo: false
+      dist: precise
+    - os: linux
+      sudo: required
+      dist: trusty
+    - os: linux
+      sudo: false
+      dist: precise
+      apt:
+        sources: [ 'ubuntu-toolchain-r-test' ]
+        packages: [ 'libstdc++-5-dev' ]
+
+script:
+  ./test.sh
