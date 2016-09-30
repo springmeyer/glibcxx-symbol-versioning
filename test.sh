@@ -23,5 +23,6 @@ clang++ test_runtime_error.cpp -o test_runtime_error -std=c++11
 strings test_runtime_error
 
 color_echo "runtime c++14 (${HEADERS})"
+# bails on stock trusty due to https://llvm.org/bugs/show_bug.cgi?id=18402
 clang++ test_runtime_error.cpp -o test_runtime_error -std=c++14
 strings test_runtime_error
