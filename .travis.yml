@@ -5,12 +5,35 @@ matrix:
     - os: linux
       sudo: false
       dist: precise
+      env: HEADERS="default precise"
     - os: linux
       sudo: required
       dist: trusty
+      env: HEADERS="default trusty"
     - os: linux
       sudo: false
       dist: precise
+      env: HEADERS="libstdc++-4.8-dev install on precise"
+      apt:
+        packages: [ 'libstdc++-4.8-dev' ]
+    - os: linux
+      sudo: false
+      dist: precise
+      env: HEADERS="libstdc++-4.8-dev upgrade on precise"
+      apt:
+        sources: [ 'ubuntu-toolchain-r-test' ]
+        packages: [ 'libstdc++-4.8-dev' ]
+    - os: linux
+      sudo: false
+      dist: precise
+      env: HEADERS="libstdc++-4.9-dev upgrade on precise"
+      apt:
+        sources: [ 'ubuntu-toolchain-r-test' ]
+        packages: [ 'libstdc++-4.9-dev' ]
+    - os: linux
+      sudo: false
+      dist: precise
+      env: HEADERS="libstdc++-5-dev upgrade on precise"
       apt:
         sources: [ 'ubuntu-toolchain-r-test' ]
         packages: [ 'libstdc++-5-dev' ]

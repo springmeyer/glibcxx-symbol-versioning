@@ -12,14 +12,16 @@ export PACKAGE_NAME="clang++"
 ./.mason/mason install ${PACKAGE_NAME} ${CLANG_VERSION}
 export PATH=$(./.mason/mason prefix ${PACKAGE_NAME} ${CLANG_VERSION})/bin:${PATH}
 
-echo "runtime c++98"
+function color_echo    { >&2 echo -e "\033[1m\033[36m* $1\033[0m"; }
+
+color_echo "runtime c++98 (${HEADERS})"
 clang++ test_runtime_error.cpp -o test_runtime_error -std=c++98
 strings test_runtime_error
 
-echo "runtime c++11"
+color_echo "runtime c++11 (${HEADERS})"
 clang++ test_runtime_error.cpp -o test_runtime_error -std=c++11
 strings test_runtime_error
 
-echo "runtime c++14"
+color_echo "runtime c++14 (${HEADERS})"
 clang++ test_runtime_error.cpp -o test_runtime_error -std=c++14
 strings test_runtime_error
