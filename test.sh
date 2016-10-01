@@ -24,15 +24,39 @@ function check() {
     fi
 }
 
-color_echo "runtime c++98 (${HEADERS})"
-clang++ test_runtime_error.cpp -o test_runtime_error -std=c++98
+HEADERS=${HEADERS:-}
+
+color_echo "runtime c++98 std::runtime_error(<cstring>) (${HEADERS})"
+clang++ test_runtime_error_cstring.cpp -o test_runtime_error -std=c++98
 check
 
-color_echo "runtime c++11 (${HEADERS})"
-clang++ test_runtime_error.cpp -o test_runtime_error -std=c++11
+color_echo "runtime c++11 std::runtime_error(<cstring>) (${HEADERS})"
+clang++ test_runtime_error_cstring.cpp -o test_runtime_error -std=c++11
 check
 
-color_echo "runtime c++14 (${HEADERS})"
+color_echo "runtime c++14 std::runtime_error(<cstring>) (${HEADERS})"
 # bails on stock trusty due to https://llvm.org/bugs/show_bug.cgi?id=18402
-clang++ test_runtime_error.cpp -o test_runtime_error -std=c++14
+clang++ test_runtime_error_cstring.cpp -o test_runtime_error -std=c++14
+check
+
+color_echo "runtime c++98 std::runtime_error(<std::string>) (${HEADERS})"
+clang++ test_runtime_error_std_string.cpp -o test_runtime_error -std=c++98
+check
+
+color_echo "runtime c++11 std::runtime_error(<std::string>) -D_GLIBCXX_USE_CXX11_ABI=0 (${HEADERS})"
+clang++ test_runtime_error_std_string.cpp -o test_runtime_error -std=c++11 -D_GLIBCXX_USE_CXX11_ABI=0
+check
+
+color_echo "runtime c++11 std::runtime_error(<std::string>) -D_GLIBCXX_USE_CXX11_ABI=1 (${HEADERS})"
+clang++ test_runtime_error_std_string.cpp -o test_runtime_error -std=c++11 -D_GLIBCXX_USE_CXX11_ABI=1
+check
+
+color_echo "runtime c++14 std::runtime_error(<std::string>) -D_GLIBCXX_USE_CXX11_ABI=0 (${HEADERS})"
+# bails on stock trusty due to https://llvm.org/bugs/show_bug.cgi?id=18402
+clang++ test_runtime_error_std_string.cpp -o test_runtime_error -std=c++14 -D_GLIBCXX_USE_CXX11_ABI=0
+check
+
+color_echo "runtime c++14 std::runtime_error(<std::string>) -D_GLIBCXX_USE_CXX11_ABI=1 (${HEADERS})"
+# bails on stock trusty due to https://llvm.org/bugs/show_bug.cgi?id=18402
+clang++ test_runtime_error_std_string.cpp -o test_runtime_error -std=c++14 -D_GLIBCXX_USE_CXX11_ABI=1
 check

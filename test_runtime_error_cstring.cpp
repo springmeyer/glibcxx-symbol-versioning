@@ -3,8 +3,7 @@
 
 int main() {
     try {
-        std::string msg("hello");
-        throw std::runtime_error(msg);
+        throw std::runtime_error("hello");
     } catch (std::exception const& ex) {
         std::clog << ex.what() << "\n";
     }
