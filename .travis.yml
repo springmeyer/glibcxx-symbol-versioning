@@ -13,13 +13,6 @@ matrix:
     - os: linux
       sudo: false
       dist: precise
-      env: HEADERS="libstdc++-4.8-dev install on precise"
-      addons:
-        apt:
-          packages: [ 'libstdc++-4.8-dev' ]
-    - os: linux
-      sudo: false
-      dist: precise
       env: HEADERS="libstdc++-4.8-dev upgrade on precise"
       addons:
         apt:
