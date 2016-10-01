@@ -16,13 +16,13 @@ function color_echo    { >&2 echo -e "\033[1m\033[36m* $1\033[0m"; }
 
 color_echo "runtime c++98 (${HEADERS})"
 clang++ test_runtime_error.cpp -o test_runtime_error -std=c++98
-strings test_runtime_error | grep GLIBCXX_3.4.2 || "echo GLIBCXX_3.4.2 not found"
+strings test_runtime_error | grep GLIBCXX_3.4.2 || echo "GLIBCXX_3.4.2 not found"
 
 color_echo "runtime c++11 (${HEADERS})"
 clang++ test_runtime_error.cpp -o test_runtime_error -std=c++11
-strings test_runtime_error | grep GLIBCXX_3.4.2 || "echo GLIBCXX_3.4.2 not found"
+strings test_runtime_error | grep GLIBCXX_3.4.2 || echo "GLIBCXX_3.4.2 not found"
 
 color_echo "runtime c++14 (${HEADERS})"
 # bails on stock trusty due to https://llvm.org/bugs/show_bug.cgi?id=18402
 clang++ test_runtime_error.cpp -o test_runtime_error -std=c++14
-strings test_runtime_error | grep GLIBCXX_3.4.2 || "echo GLIBCXX_3.4.2 not found"
+strings test_runtime_error | grep GLIBCXX_3.4.2 || echo "GLIBCXX_3.4.2 not found"
