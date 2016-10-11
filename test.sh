@@ -16,6 +16,8 @@ function color_echo    { >&2 echo -e "\033[1m\033[36m* $1\033[0m"; }
 function color_success { >&2 echo -e "\033[1m\033[32m* $1\033[0m"; }
 function color_error   { >&2 echo -e "\033[1m\033[31m$1\033[0m"; }
 
+export FINAL_RETURN_CODE=0
+
 function check() {
     local RESULT=0
     nm ${1} | grep "GLIBCXX_3.4.2[0-9]" > /tmp/out.txt || RESULT=$?
@@ -23,6 +25,7 @@ function check() {
         color_success "Success: GLIBCXX_3.4.2[0-9] not found"
     else
         color_error "$(cat /tmp/out.txt | c++filt)"
+        export FINAL_RETURN_CODE=1
     fi
 }
 
@@ -84,3 +87,7 @@ for cpp in $(ls *.cpp); do
         run_it ${cpp} ${std}
     done
 done
+
+if [[ ${FINAL_RETURN_CODE} != 0 ]]; then
+    false
+fi
