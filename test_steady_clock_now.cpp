@@ -21,7 +21,7 @@
     #define SUPPORTS_STEADY_CLOCK
 #endif
 
-#if __cplusplus >= 201300L
+#if __cplusplus >= 201300L && defined(SUPPORTS_STEADY_CLOCK)
 
 #include <chrono>
 
