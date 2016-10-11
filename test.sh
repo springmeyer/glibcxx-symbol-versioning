@@ -18,9 +18,9 @@ function color_error   { >&2 echo -e "\033[1m\033[31m$1\033[0m"; }
 
 function check() {
     local RESULT=0
-    nm ${1} | grep GLIBCXX_3.4.2 > /tmp/out.txt || RESULT=$?
+    nm ${1} | grep "GLIBCXX_3.4.2[0-9]" > /tmp/out.txt || RESULT=$?
     if [[ ${RESULT} != 0 ]]; then
-        color_success "Success: GLIBCXX_3.4.2 not found"
+        color_success "Success: GLIBCXX_3.4.2[0-9] not found"
     else
         color_error "$(cat /tmp/out.txt | c++filt)"
     fi
