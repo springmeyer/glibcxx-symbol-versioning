@@ -59,6 +59,7 @@ function run_it() {
 
 function display_libstdcxx_version() {
     # https://gcc.gnu.org/onlinedocs/libstdc++/manual/using_macros.html
+    # https://github.com/gcc-mirror/gcc/blob/1c486c588e0037f4c5645317da3202c6e77ba66c/libstdc%2B%2B-v3/include/bits/c%2B%2Bconfig#L34
     echo "#include <ios>" > test.cpp
     echo "#define XSTR(x) STR(x)" >> test.cpp
     echo "#define STR(x) #x" >> test.cpp
