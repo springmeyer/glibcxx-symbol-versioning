@@ -34,6 +34,14 @@ matrix:
         apt:
           sources: [ 'ubuntu-toolchain-r-test' ]
           packages: [ 'libstdc++-5-dev' ]
+    - os: linux
+      sudo: false
+      dist: precise
+      env: HEADERS="libstdc++-6-dev upgrade on precise"
+      addons:
+        apt:
+          sources: [ 'ubuntu-toolchain-r-test' ]
+          packages: [ 'libstdc++-6-dev' ]
 
 script:
   ./test.sh
