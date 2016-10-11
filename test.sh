@@ -13,50 +13,51 @@ export PACKAGE_NAME="clang++"
 export PATH=$(./.mason/mason prefix ${PACKAGE_NAME} ${CLANG_VERSION})/bin:${PATH}
 
 function color_echo    { >&2 echo -e "\033[1m\033[36m* $1\033[0m"; }
+function color_success { >&2 echo -e "\033[1m\033[32m* $1\033[0m"; }
+function color_error   { >&2 echo -e "\033[1m\033[31m$1\033[0m"; }
 
 function check() {
     RESULT=0
-    nm test_runtime_error | grep GLIBCXX_3.4.2 > /tmp/out.txt || RESULT=$?
+    nm ${1} | grep GLIBCXX_3.4.2 > /tmp/out.txt || RESULT=$?
     if [[ ${RESULT} != 0 ]]; then
-        echo "GLIBCXX_3.4.2 not found"
+        color_success "Success: GLIBCXX_3.4.2 not found"
     else
-        cat /tmp/out.txt | c++filt
+        color_error "$(cat /tmp/out.txt | c++filt)"
     fi
 }
 
 HEADERS=${HEADERS:-}
 
-color_echo "runtime c++98 std::runtime_error(<cstring>) (${HEADERS})"
-clang++ test_runtime_error_cstring.cpp -o test_runtime_error -std=c++98
-check
+function build() {
+    color_echo "runtime c++98 std::new_handler (${HEADERS})"
+    clang++ test_runtime_error_std_string.cpp -o test_runtime_error -std=c++98
+    check
+}
 
-color_echo "runtime c++11 std::runtime_error(<cstring>) (${HEADERS})"
-clang++ test_runtime_error_cstring.cpp -o test_runtime_error -std=c++11
-check
+function run_it() {
+    local cpp=$1
+    local std=$2
+    cmd="clang++ ${cpp} -o ./test -Wall -Werror -pedantic -std=${std}"
+    if [[ $(uname -s) == 'Linux' ]]; then
+        for abi in {0,1}; do
+            color_echo "${std}-${cpp}-D_GLIBCXX_USE_CXX11_ABI=${abi} (${HEADERS})"
+            cmd="${cmd} -D_GLIBCXX_USE_CXX11_ABI=${abi}"
+            echo $cmd
+            $cmd
+            check ./test
+            rm ./test
+        done
+    else
+        color_echo "${std}-${cpp} (${HEADERS})"
+        echo $cmd
+        $cmd
+        check ./test
+        rm ./test
+    fi
+}
 
-color_echo "runtime c++14 std::runtime_error(<cstring>) (${HEADERS})"
-# bails on stock trusty due to https://llvm.org/bugs/show_bug.cgi?id=18402
-clang++ test_runtime_error_cstring.cpp -o test_runtime_error -std=c++14
-check
-
-color_echo "runtime c++98 std::runtime_error(<std::string>) (${HEADERS})"
-clang++ test_runtime_error_std_string.cpp -o test_runtime_error -std=c++98
-check
-
-color_echo "runtime c++11 std::runtime_error(<std::string>) -D_GLIBCXX_USE_CXX11_ABI=0 (${HEADERS})"
-clang++ test_runtime_error_std_string.cpp -o test_runtime_error -std=c++11 -D_GLIBCXX_USE_CXX11_ABI=0
-check
-
-color_echo "runtime c++11 std::runtime_error(<std::string>) -D_GLIBCXX_USE_CXX11_ABI=1 (${HEADERS})"
-clang++ test_runtime_error_std_string.cpp -o test_runtime_error -std=c++11 -D_GLIBCXX_USE_CXX11_ABI=1
-check
-
-color_echo "runtime c++14 std::runtime_error(<std::string>) -D_GLIBCXX_USE_CXX11_ABI=0 (${HEADERS})"
-# bails on stock trusty due to https://llvm.org/bugs/show_bug.cgi?id=18402
-clang++ test_runtime_error_std_string.cpp -o test_runtime_error -std=c++14 -D_GLIBCXX_USE_CXX11_ABI=0
-check
-
-color_echo "runtime c++14 std::runtime_error(<std::string>) -D_GLIBCXX_USE_CXX11_ABI=1 (${HEADERS})"
-# bails on stock trusty due to https://llvm.org/bugs/show_bug.cgi?id=18402
-clang++ test_runtime_error_std_string.cpp -o test_runtime_error -std=c++14 -D_GLIBCXX_USE_CXX11_ABI=1
-check
+for cpp in $(ls *.cpp); do
+    for std in {c++98,c++11,c++14}; do
+        run_it ${cpp} ${std}
+    done
+done
