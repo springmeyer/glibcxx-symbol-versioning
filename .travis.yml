@@ -1,6 +1,9 @@
 language: generic
 
-# available libstdc++ dev packages: https://github.com/travis-ci/apt-package-whitelist/blob/3c5be047e7d7ce6fbd2f2d6427c0577e8e116f64/ubuntu-precise#L8726-L8744
+# available libstdc++ dev packages
+# https://github.com/travis-ci/apt-package-whitelist/blob/3c5be047e7d7ce6fbd2f2d6427c0577e8e116f64/ubuntu-precise#L8726-L8744
+# should be paired with correct libgcc-dev:
+# https://github.com/travis-ci/apt-package-whitelist/blob/3c5be047e7d7ce6fbd2f2d6427c0577e8e116f64/ubuntu-precise#L5489-L5494
 
 matrix:
   include:
@@ -13,37 +16,44 @@ matrix:
       dist: trusty
       env: HEADERS="default trusty"
     - os: linux
-      sudo: false
-      dist: precise
-      env: HEADERS="libstdc++-4.8-dev upgrade on precise"
+      sudo: required
+      dist: trusty
+      env: HEADERS="libstdc++-4.9-dev upgrade on trusty"
       addons:
         apt:
-          sources: [ 'ubuntu-toolchain-r-test' ]
-          packages: [ 'libstdc++-4.8-dev' ]
+          packages: [ 'libstdc++-4.9-dev', 'libgcc-4.9-dev' ]
     - os: linux
       sudo: false
       dist: precise
-      env: HEADERS="libstdc++-4.9-dev upgrade on precise"
+      env: HEADERS="libstdc++-4.8-dev upgrade on precise (via toolchain-r)"
       addons:
         apt:
           sources: [ 'ubuntu-toolchain-r-test' ]
-          packages: [ 'libstdc++-4.9-dev' ]
+          packages: [ 'libstdc++-4.8-dev', 'libgcc-4.8-dev' ]
     - os: linux
       sudo: false
       dist: precise
-      env: HEADERS="libstdc++-5-dev upgrade on precise"
+      env: HEADERS="libstdc++-4.9-dev upgrade on precise (via toolchain-r)"
       addons:
         apt:
           sources: [ 'ubuntu-toolchain-r-test' ]
-          packages: [ 'libstdc++-5-dev' ]
+          packages: [ 'libstdc++-4.9-dev', 'libgcc-4.9-dev' ]
     - os: linux
       sudo: false
       dist: precise
-      env: HEADERS="libstdc++-6-dev upgrade on precise"
+      env: HEADERS="libstdc++-5-dev upgrade on precise (via toolchain-r)"
       addons:
         apt:
           sources: [ 'ubuntu-toolchain-r-test' ]
-          packages: [ 'libstdc++-6-dev' ]
+          packages: [ 'libstdc++-5-dev', 'libgcc-5-dev' ]
+    - os: linux
+      sudo: false
+      dist: precise
+      env: HEADERS="libstdc++-6-dev upgrade on precise (via toolchain-r)"
+      addons:
+        apt:
+          sources: [ 'ubuntu-toolchain-r-test' ]
+          packages: [ 'libstdc++-6-dev', 'libgcc-6-dev' ]
 
 script:
   ./test.sh
