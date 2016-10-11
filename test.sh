@@ -39,6 +39,7 @@ function run_it() {
     local std=$2
     cmd="clang++ ${cpp} -o ./test -Wall -pedantic -std=${std}"
     if [[ $(uname -s) == 'Linux' ]]; then
+        display_libstdcxx_version
         for abi in {0,1}; do
             color_echo "${std}-${cpp}-D_GLIBCXX_USE_CXX11_ABI=${abi} (${HEADERS})"
             new_cmd="${cmd} -D_GLIBCXX_USE_CXX11_ABI=${abi}"
@@ -54,6 +55,24 @@ function run_it() {
         check ./test
         rm ./test
     fi
+}
+
+function display_libstdcxx_version() {
+    echo "#define XSTR(x) STR(x)" > test.cpp
+    echo "#define STR(x) #x" >> test.cpp
+    echo "#ifdef __GLIBCXX__" >> test.cpp
+    echo "#pragma message(\"value of __GLIBCXX__: \" XSTR(__GLIBCXX__))" >> test.cpp
+    echo "#else" >> test.cpp
+    echo "#pragma message(\"WARNING: __GLIBCXX__ not defined\")" >> test.cpp
+    echo "#endif" >> test.cpp
+    echo "int main() { return 0; }" >> test.cpp
+    local cpp=$1
+    local std=$2
+    cmd="clang++ test.cpp -o ./test -E -Wall -pedantic -std=${std}"
+    echo $cmd
+    ${cmd}
+    rm test.cpp
+    rm ./test
 }
 
 for cpp in $(ls *.cpp); do
