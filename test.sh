@@ -58,8 +58,9 @@ function run_it() {
 }
 
 function display_libstdcxx_version() {
-    echo "#include <ios>"
-    echo "#define XSTR(x) STR(x)" > test.cpp
+    # https://gcc.gnu.org/onlinedocs/libstdc++/manual/using_macros.html
+    echo "#include <ios>" > test.cpp
+    echo "#define XSTR(x) STR(x)" >> test.cpp
     echo "#define STR(x) #x" >> test.cpp
     echo "#ifdef __GLIBCXX__" >> test.cpp
     echo "#pragma message(\"value of __GLIBCXX__: \" XSTR(__GLIBCXX__))" >> test.cpp
