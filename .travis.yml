@@ -16,13 +16,6 @@ matrix:
       dist: trusty
       env: HEADERS="default trusty"
     - os: linux
-      sudo: required
-      dist: trusty
-      env: HEADERS="libstdc++-4.9-dev upgrade on trusty"
-      addons:
-        apt:
-          packages: [ 'libstdc++-4.9-dev', 'libgcc-4.9-dev' ]
-    - os: linux
       sudo: false
       dist: precise
       env: HEADERS="libstdc++-4.8-dev upgrade on precise (via toolchain-r)"
