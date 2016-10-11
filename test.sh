@@ -39,7 +39,7 @@ function run_it() {
     local std=$2
     cmd="clang++ ${cpp} -o ./test -Wall -pedantic -std=${std}"
     if [[ $(uname -s) == 'Linux' ]]; then
-        display_libstdcxx_version
+        display_libstdcxx_version ${std}
         for abi in {0,1}; do
             color_echo "${std}-${cpp}-D_GLIBCXX_USE_CXX11_ABI=${abi} (${HEADERS})"
             new_cmd="${cmd} -D_GLIBCXX_USE_CXX11_ABI=${abi}"
@@ -66,8 +66,7 @@ function display_libstdcxx_version() {
     echo "#pragma message(\"WARNING: __GLIBCXX__ not defined\")" >> test.cpp
     echo "#endif" >> test.cpp
     echo "int main() { return 0; }" >> test.cpp
-    local cpp=$1
-    local std=$2
+    local std=$1
     cmd="clang++ test.cpp -o ./test -E -Wall -pedantic -std=${std}"
     echo $cmd
     ${cmd}
