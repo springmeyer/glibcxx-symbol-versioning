@@ -1,7 +1,5 @@
 language: generic
 
-# bails on stock trusty due to https://llvm.org/bugs/show_bug.cgi?id=18402
-
 matrix:
   include:
     - os: linux
@@ -12,6 +10,14 @@ matrix:
       sudo: required
       dist: trusty
       env: HEADERS="default trusty"
+    - os: linux
+      sudo: required
+      dist: trusty
+      env: HEADERS="libstdc++-4.8-dev upgrade on trusty"
+      addons:
+        apt:
+          sources: [ 'ubuntu-toolchain-r-test' ]
+          packages: [ 'libstdc++-4.8-dev' ]
     - os: linux
       sudo: false
       dist: precise
@@ -36,6 +42,9 @@ matrix:
         apt:
           sources: [ 'ubuntu-toolchain-r-test' ]
           packages: [ 'libstdc++-5-dev' ]
+  # c++14 compile bails on stock trusty due to https://llvm.org/bugs/show_bug.cgi?id=18402
+  allow_failures:
+    - env: HEADERS="default trusty"
 
 script:
   ./test.sh
