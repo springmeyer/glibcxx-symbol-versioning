@@ -76,6 +76,8 @@ function display_libstdcxx_version() {
     rm ./test
 }
 
+clang++ --version
+
 for cpp in $(ls *.cpp); do
     for std in {c++98,c++11,c++14}; do
         run_it ${cpp} ${std}
