@@ -41,9 +41,9 @@ function run_it() {
     if [[ $(uname -s) == 'Linux' ]]; then
         for abi in {0,1}; do
             color_echo "${std}-${cpp}-D_GLIBCXX_USE_CXX11_ABI=${abi} (${HEADERS})"
-            cmd="${cmd} -D_GLIBCXX_USE_CXX11_ABI=${abi}"
-            echo $cmd
-            $cmd
+            new_cmd="${cmd} -D_GLIBCXX_USE_CXX11_ABI=${abi}"
+            echo $new_cmd
+            $new_cmd
             check ./test
             rm ./test
         done

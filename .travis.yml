@@ -1,5 +1,7 @@
 language: generic
 
+# bails on stock trusty due to https://llvm.org/bugs/show_bug.cgi?id=18402
+
 matrix:
   include:
     - os: linux
