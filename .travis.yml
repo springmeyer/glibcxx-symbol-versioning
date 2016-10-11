@@ -1,5 +1,7 @@
 language: generic
 
+# available libstdc++ dev packages: https://github.com/travis-ci/apt-package-whitelist/blob/3c5be047e7d7ce6fbd2f2d6427c0577e8e116f64/ubuntu-precise#L8726-L8744
+
 matrix:
   include:
     - os: linux

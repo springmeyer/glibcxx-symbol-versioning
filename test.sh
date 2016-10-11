@@ -37,7 +37,7 @@ function build() {
 function run_it() {
     local cpp=$1
     local std=$2
-    cmd="clang++ ${cpp} -o ./test -Wall -Werror -pedantic -std=${std}"
+    cmd="clang++ ${cpp} -o ./test -Wall -pedantic -std=${std}"
     if [[ $(uname -s) == 'Linux' ]]; then
         for abi in {0,1}; do
             color_echo "${std}-${cpp}-D_GLIBCXX_USE_CXX11_ABI=${abi} (${HEADERS})"
