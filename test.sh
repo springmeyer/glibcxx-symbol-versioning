@@ -17,7 +17,7 @@ function color_success { >&2 echo -e "\033[1m\033[32m* $1\033[0m"; }
 function color_error   { >&2 echo -e "\033[1m\033[31m$1\033[0m"; }
 
 function check() {
-    RESULT=0
+    local RESULT=0
     nm ${1} | grep GLIBCXX_3.4.2 > /tmp/out.txt || RESULT=$?
     if [[ ${RESULT} != 0 ]]; then
         color_success "Success: GLIBCXX_3.4.2 not found"
@@ -37,12 +37,12 @@ function build() {
 function run_it() {
     local cpp=$1
     local std=$2
-    cmd="clang++ ${cpp} -o ./test -Wall -pedantic -std=${std}"
+    local cmd="clang++ ${cpp} -o ./test -Wall -pedantic -std=${std}"
     if [[ $(uname -s) == 'Linux' ]]; then
         display_libstdcxx_version ${std}
         for abi in {0,1}; do
             color_echo "${std}-${cpp}-D_GLIBCXX_USE_CXX11_ABI=${abi} (${HEADERS})"
-            new_cmd="${cmd} -D_GLIBCXX_USE_CXX11_ABI=${abi}"
+            local new_cmd="${cmd} -D_GLIBCXX_USE_CXX11_ABI=${abi}"
             echo $new_cmd
             $new_cmd
             check ./test
@@ -67,7 +67,7 @@ function display_libstdcxx_version() {
     echo "#endif" >> test.cpp
     echo "int main() { return 0; }" >> test.cpp
     local std=$1
-    cmd="clang++ test.cpp -o ./test -E -Wall -pedantic -std=${std}"
+    local cmd="clang++ test.cpp -o ./test -E -Wall -pedantic -std=${std}"
     echo $cmd
     ${cmd}
     rm test.cpp
