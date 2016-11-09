@@ -29,6 +29,14 @@ function check() {
     fi
 }
 
+function run() {
+    local RESULT=0
+    ${1} || RESULT=$?
+    if [[ ${RESULT} != 0 ]]; then
+        export FINAL_RETURN_CODE=1
+    fi
+}
+
 HEADERS=${HEADERS:-}
 
 function build() {
@@ -47,7 +55,7 @@ function run_it() {
             color_echo "${std}-${cpp}-D_GLIBCXX_USE_CXX11_ABI=${abi} (${HEADERS})"
             local new_cmd="${cmd} -D_GLIBCXX_USE_CXX11_ABI=${abi}"
             echo $new_cmd
-            $new_cmd
+            run $new_cmd
             check ./test
             rm ./test
         done
