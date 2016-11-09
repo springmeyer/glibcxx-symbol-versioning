@@ -4,7 +4,7 @@ set -eu
 set -o pipefail
 
 if [[ ! -d .mason ]]; then
-    git clone --depth 1 -b llvm-3.9.0 https://github.com/mapbox/mason .mason
+    git clone --depth 1 https://github.com/mapbox/mason .mason
 fi
 
 export CLANG_VERSION=${CLANG_VERSION:-3.9.0}

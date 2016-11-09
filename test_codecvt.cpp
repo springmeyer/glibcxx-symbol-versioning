@@ -5,6 +5,7 @@
 #include <codecvt>
 
 int main() {
+    // http://en.cppreference.com/w/cpp/language/string_literal
     std::ofstream("text.txt") << u8"z\u6c34\U0001d10b";
  
     std::wifstream file1("text.txt");
