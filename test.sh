@@ -31,7 +31,7 @@ function check() {
 
 function run() {
     local RESULT=0
-    ${1} || RESULT=$?
+    ${@} || RESULT=$?
     if [[ ${RESULT} != 0 ]]; then
         export FINAL_RETURN_CODE=1
     fi
@@ -57,7 +57,7 @@ function run_it() {
             echo $new_cmd
             run $new_cmd
             check ./test
-            rm ./test
+            rm -f ./test
         done
     else
         color_echo "${std}-${cpp} (${HEADERS})"
