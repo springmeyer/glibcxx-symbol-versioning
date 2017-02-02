@@ -3,14 +3,11 @@
 set -eu
 set -o pipefail
 
-if [[ ! -d .mason ]]; then
-    git clone --depth 1 https://github.com/mapbox/mason .mason
-fi
-
-export CLANG_VERSION=${CLANG_VERSION:-3.9.0}
+mkdir mason && curl -sSfL https://github.com/mapbox/mason/archive/v0.5.0.tar.gz | tar --gunzip --extract --strip-components=1 --directory=./mason
+export CLANG_VERSION=${CLANG_VERSION:-3.9.1}
 export PACKAGE_NAME="clang++"
-./.mason/mason install ${PACKAGE_NAME} ${CLANG_VERSION}
-export PATH=$(./.mason/mason prefix ${PACKAGE_NAME} ${CLANG_VERSION})/bin:${PATH}
+./mason/mason install ${PACKAGE_NAME} ${CLANG_VERSION}
+export PATH=$(./mason/mason prefix ${PACKAGE_NAME} ${CLANG_VERSION})/bin:${PATH}
 
 function color_echo    { >&2 echo -e "\033[1m\033[36m* $1\033[0m"; }
 function color_success { >&2 echo -e "\033[1m\033[32m* $1\033[0m"; }
