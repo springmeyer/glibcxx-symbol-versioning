@@ -63,6 +63,7 @@ Bug with `-std=c++14`:
  - GLIBCXX_3.4.22
  - Selected GCC installation: /usr/lib/gcc/x86_64-linux-gnu/5.4.1
  - __GLIBCXX__: 20160904
+ - std::out_of_range::out_of_range(char const*)@@GLIBCXX_3.4.21
  - std::__codecvt_utf8_utf16_base<wchar_t>::do_encoding() const@@GLIBCXX_3.4.21
  - std::runtime_error::runtime_error(char const*)@@GLIBCXX_3.4.21
 
