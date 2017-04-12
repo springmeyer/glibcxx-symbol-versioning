@@ -79,6 +79,7 @@ Bug with `-std=c++14`:
  - std::runtime_error::runtime_error(char const*)@@GLIBCXX_3.4.21
 
 
+libstdc++ version on all linux distros: https://pkgs.org/download/libstdc++6
 
 
 
