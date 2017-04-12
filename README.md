@@ -2,6 +2,8 @@
 
 Sample code to demonstrate how libstdc++ symbol versioning works
 
+First read about versioned symbols at http://ftp.ntu.edu.tw/software/libs/glibc/hjl/compat/. Then dig into the travis results for this repo to see how specific test programs do or do not end up using specific versioned symbols.
+
 [![Build Status](https://travis-ci.org/springmeyer/glibcxx-symbol-versioning.svg?branch=master)](https://travis-ci.org/springmeyer/glibcxx-symbol-versioning)
 
 Testing methods:
